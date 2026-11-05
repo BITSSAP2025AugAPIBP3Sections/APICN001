@@ -1,4 +1,4 @@
-# Limitations — APICN008
+# Limitations — APICN001
 
 ## Retrieval
 - **Lexical only.** The retriever is BM25, not semantic. A question that uses

@@ -1,4 +1,4 @@
-"""Smoke tests for the APICN008 RAG VoiceBot. Run: python -m pytest tests/ -q"""
+"""Smoke tests for the APICN001 RAG VoiceBot. Run: python -m pytest tests/ -q"""
 import json
 import sys
 from pathlib import Path

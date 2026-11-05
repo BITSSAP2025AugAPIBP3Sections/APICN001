@@ -1,4 +1,4 @@
-# Latency Results — APICN008
+# Latency Results — APICN001
 
 Configuration tested: provider=slm (Ollama), model=qwen2.5:3b, STT=faster-whisper(base, local), TTS=pyttsx3(local SAPI5), hardware=Windows 11, Intel Core i7 11th Gen, 16 GB RAM, **no dedicated GPU (CPU-only)**
 

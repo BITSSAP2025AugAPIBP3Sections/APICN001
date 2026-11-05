@@ -1,4 +1,4 @@
-"""APICN008: RAG VoiceBot for Indian Income Tax — TITO / TIVO / VITO / VIVO.
+"""APICN001: RAG VoiceBot for Indian Income Tax — TITO / TIVO / VITO / VIVO.
 
 Usage:
   python src/app.py --mode tito            typed question -> typed answer
@@ -61,7 +61,7 @@ def run_cli(mode: str) -> None:
     voice_in = mode in ("vito", "vivo")
     voice_out = mode in ("tivo", "vivo")
 
-    print(f"\n=== APICN008 VoiceBot [{mode.upper()}] ===")
+    print(f"\n=== APICN001 VoiceBot [{mode.upper()}] ===")
     print("Type 'quit' to exit.\n" if not voice_in else "")
 
     while True:
@@ -140,8 +140,8 @@ def run_web() -> None:
     def clear() -> None:
         state["history"] = []
 
-    with gr.Blocks(title="APICN008 Income Tax VoiceBot") as demo:
-        gr.Markdown("# APICN008 — Income Tax RAG VoiceBot\nAll four modes: TITO / TIVO / VITO / VIVO")
+    with gr.Blocks(title="APICN001 Income Tax VoiceBot") as demo:
+        gr.Markdown("# APICN001 — Income Tax RAG VoiceBot\nAll four modes: TITO / TIVO / VITO / VIVO")
         with gr.Tab("Text (TITO / TIVO)"):
             q = gr.Textbox(label="Your question")
             a = gr.Textbox(label="Answer", lines=10)
@@ -159,7 +159,7 @@ def run_web() -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="APICN008 Income Tax RAG VoiceBot")
+    parser = argparse.ArgumentParser(description="APICN001 Income Tax RAG VoiceBot")
     parser.add_argument("--mode", choices=["tito", "tivo", "vito", "vivo"], default="tito")
     parser.add_argument("--question", help="one-shot question then exit")
     parser.add_argument("--ui", choices=["cli", "web"], default="cli")

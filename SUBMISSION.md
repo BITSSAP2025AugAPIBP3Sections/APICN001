@@ -1,6 +1,6 @@
-# Submission — APICN008
+# Submission — APICN001
 
-- Team ID: APICN008
+- Team ID: APICN001
 - App entry point: `python src/app.py`
 - Default provider: SLM (Ollama + qwen2.5:3b) — switchable to groq/openai/anthropic/openrouter via `.env`
 - STT engine: faster-whisper (base, local) — optional cloud via `STT_PROVIDER=groq`

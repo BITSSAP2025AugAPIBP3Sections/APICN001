@@ -62,7 +62,7 @@ def table(section: str) -> str:
     return "\n".join(rows)
 
 
-HEADER = """# TITO Test Results — APICN008
+HEADER = """# TITO Test Results — APICN001
 
 - Date tested: 2026-11-05
 - LLM_PROVIDER: slm

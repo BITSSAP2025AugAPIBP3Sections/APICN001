@@ -1,7 +1,7 @@
 """Run the 13 official questions through the bot and write filled report tables.
 
 Usage: python scripts/run_tests.py
-Reads INDEX_DIR + .env from the APICN008 project (run from the project root).
+Reads INDEX_DIR + .env from the APICN001 project (run from the project root).
 Writes:
   report/_answers.json        raw results (answer, sources, timings)
   report/test_results.FILLED.md
