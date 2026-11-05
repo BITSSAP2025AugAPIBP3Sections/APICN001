@@ -1,0 +1,21 @@
+# Core dependencies
+pymupdf>=1.24
+numpy>=1.24
+requests>=2.31
+python-dotenv>=1.0
+
+# UI
+gradio>=4.0
+
+# Voice: STT
+faster-whisper>=1.0.0
+av<14                      # PyAV 14+ dropped a kwarg faster-whisper still passes
+sounddevice>=0.4.6
+soundfile>=0.12.1
+
+# Voice: TTS
+pyttsx3>=2.90 ; sys_platform == "win32" or sys_platform == "darwin"
+edge-tts>=6.1.9
+
+# Testing
+pytest>=7.0
