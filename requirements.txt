@@ -16,6 +16,7 @@ soundfile>=0.12.1
 # Voice: TTS
 pyttsx3>=2.90 ; sys_platform == "win32" or sys_platform == "darwin"
 edge-tts>=6.1.9
+imageio-ffmpeg>=0.4.9               # ffmpeg binary for MP3 stitching (no admin install needed)
 
 # Testing
 pytest>=7.0
