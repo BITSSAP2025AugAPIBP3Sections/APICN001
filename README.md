@@ -3,10 +3,10 @@
 ## Team
 | Member | Role | Email |
 |--------|------|-------|
-| Team Member 1 | Lead Developer | 2023sl20037@wilp.bits-pilani.ac.in |
-| Team Member 2 | RAG & ML | 2023sl70012@wilp.bits-pilani.ac.in  |
- Team Member 2 | RAG & ML | 2023sl70006@wilp.bits-pilani.ac.in  |
-  Team Member 2 | RAG & ML | 2023sl70041@wilp.bits-pilani.ac.in  |
+| Rajoli Vignesh | Lead Developer | 2023sl20037@wilp.bits-pilani.ac.in |
+| Priya Sahay | RAG & ML | 2023sl70012@wilp.bits-pilani.ac.in  |
+ Kousik Das | RAG & ML | 2023sl70006@wilp.bits-pilani.ac.in  |
+  Pallavi S | RAG & ML | 2023sl70041@wilp.bits-pilani.ac.in  |
 
 ## Overview
 
