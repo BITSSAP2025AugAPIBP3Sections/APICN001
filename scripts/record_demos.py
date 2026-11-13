@@ -47,7 +47,7 @@ MIC_DEVICE = 11  # Headset (Vignesh 75) — device 11 at 44100 Hz
 # demo index -> (question id, question text)
 DEMOS = {
     0: ("Q-free", "What is the standard deduction available to salaried employees under the new tax regime for FY 2024-25?"),
-    1: ("Q-E01", "What are the income tax slab rates for an individual under the new regime for FY 2024-25 (AY 2025-26)?"),
+    1: ("Q-E01", "What are the income tax slab rates under the new tax regime — list all slabs from zero to above fifteen lakh?"),
     2: ("Q-E02", "What is the maximum deduction allowed under Section 80C in a financial year, and name three eligible investments?"),
     3: ("Q-E05", "What is the tax rate applicable to income from capital gains on listed equity shares held for more than 12 months as per the latest budget?"),
     4: ("Q-M01", "A salaried individual earns 18 lakh gross annual salary in FY 2024-25, contributes 1.5 lakh to EPF, pays 50 thousand NPS, and 25 thousand health insurance. Compute tax under the new regime."),
@@ -82,8 +82,12 @@ def _clean(text: str) -> str:
 
 
 def answer_of(ret: Retriever, question: str, history: list[dict]) -> str:
-    hits = ret.search(question, top_k=5)
-    context = "\n\n".join(f"{h['text']}\n[source: {h['doc']} p.{h['page']}]" for h in hits)
+    hits = ret.search(question, top_k=10)
+    # Prefer budget speech / annexure chunks; keep FAQ chunks only if no budget hit in top-5
+    budget_hits = [h for h in hits if h["doc"].startswith("bs")]
+    faq_hits = [h for h in hits if not h["doc"].startswith("bs")]
+    ordered = (budget_hits + faq_hits)[:8]
+    context = "\n\n".join(f"{h['text']}\n[source: {h['doc']} p.{h['page']}]" for h in ordered)
     return _clean(chat(question, context, history))
 
 
