@@ -15,9 +15,9 @@
 
 ## Generation
 - **Computation is the model's weak spot.** For the complex questions (slab-by-slab
-  tax with surcharge and cess), the SLM sometimes makes arithmetic slips even when
-  it retrieves the correct rates. Larger cloud providers (Groq 70B) are markedly
-  more reliable here than a local 3B-class SLM.
+  tax with surcharge and cess), the model sometimes makes arithmetic slips even when
+  it retrieves the correct rates. Groq cloud models are markedly more reliable here
+  than a local 3B-class SLM; the `slm` path is supported but not the default.
 - **Citation fidelity varies.** The model cites the document and page it was given,
   but on long answers it occasionally attributes a claim to the wrong one of the
   retrieved chunks.

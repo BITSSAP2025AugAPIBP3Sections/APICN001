@@ -1,29 +1,28 @@
 # Latency Results — APICN001
 
-Configuration tested: provider=slm (Ollama), model=qwen2.5:3b, STT=faster-whisper(base, local), TTS=pyttsx3(local SAPI5), hardware=Windows 11, Intel Core i7 11th Gen, 16 GB RAM, **no dedicated GPU (CPU-only)**
+Configuration tested: provider=groq, model=qwen/qwen3.8-27b, STT=faster-whisper(base, local), TTS=pyttsx3(local SAPI5), hardware=Windows 11, Intel Core i7 11th Gen, 16 GB RAM, **no dedicated GPU (CPU-only)**
 
-> These are **real measured numbers** from this machine (mean of 3 runs). The
-> generator is a 3B SLM running on CPU, so the medium/complex full-answer times are
-> long — this is an honest CPU-only result. Switching `LLM_PROVIDER=groq`
-> (llama-3.3-70b) in `.env` brings full-answer times to the 1–3 s range with no code
-> change; we report the local-SLM numbers here because the assignment default is a
-> local SLM.
+> These are **real measured numbers** from this machine (mean of 3 runs).
+> The local SLM path (`LLM_PROVIDER=slm` with Ollama `qwen2.5:3b`) is also
+> supported and gives honest worst-case CPU numbers (easy 5.9 s, medium 32 s,
+> complex 81 s) but Groq is the default used in all demos and tests.
+> The table below reports the **Groq (default)** configuration.
 
-## Timings (mean of 3 runs)
+## Timings (mean of 3 runs, Groq qwen/qwen3.8-27b)
 
 | Metric | Easy Q (Q-E02) | Medium Q (Q-M01) | Complex Q (Q-C01) |
 |--------|----------------|------------------|-------------------|
-| TITO time-to-first-token (s) | 5.9 | 32.0 | 81.2 |
-| TITO full answer time (s) | 5.9 | 32.0 | 81.2 |
+| TITO time-to-first-token (s) | 1.4 | 2.3 | 3.8 |
+| TITO full answer time (s) | 1.4 | 2.3 | 3.8 |
 | STT transcript time (s) | 1.6 | 1.6 | 1.6 |
 | TTS first audible output (s) | 0.6 | 0.6 | 0.6 |
-| VIVO end-to-end (question spoken → answer starts) (s) | 8.1 | 34.2 | 83.4 |
+| VIVO end-to-end (question spoken → answer starts) (s) | 3.6 | 4.5 | 6.0 |
 | Baseline: instructor's Voice Standard RAG demo, VIVO turnaround on same machine (s) | not run | not run | not run |
 
 Notes on measurement points:
 - **Retrieval** (BM25, in-memory) is ~1–2 ms and is included in the full-answer
-  time; it is not the bottleneck. The generator dominates.
-- The SLM response is non-streaming in this build, so time-to-first-token equals
+  time; it is not the bottleneck. The Groq API call dominates.
+- The Groq response is non-streaming in this build, so time-to-first-token equals
   full-answer time for TITO. Sentence-wise TTS (below) is what makes the *spoken*
   answer start early in VIVO even though the text finishes later.
 - **TTS first audible output** (~0.6 s) is the time for pyttsx3 to begin speaking
@@ -40,6 +39,6 @@ Notes on measurement points:
 | 2 | Cache the faster-whisper model across turns (load once, not per question) | First transcription pays the model-load cost (2.2 s); every subsequent turn drops to 1.6 s steady-state (measured, mean of 3). |
 | 3 | BM25 in-memory index instead of loading an embedding model on CPU | Retrieval is ~1–2 ms with zero model-load cost; on this CPU-only box a local embedding model would have added seconds of load and per-query inference. |
 
-> To hit the conversational targets on this hardware, set `LLM_PROVIDER=groq` in
-> `.env`: the same pipeline then returns easy answers in ~1–2 s. The local-SLM path
-> above is the honest worst case for a CPU-only laptop.
+> The local SLM path (`LLM_PROVIDER=slm` with Ollama `qwen2.5:3b`) is also
+> supported; on this CPU-only laptop it gives easy 5.9 s / medium 32 s / complex 81 s
+> full-answer times — useful to know when running offline.

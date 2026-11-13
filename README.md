@@ -25,7 +25,7 @@ Answers are grounded in official Income Tax documents (Income Tax Act 1961, Budg
 
 ### Prerequisites
 - Python 3.10+
-- (Optional, for local SLM) [Ollama](https://ollama.ai/) installed and running
+- A Groq API key (free tier at console.groq.com) — or any other supported provider via `.env`
 - Microphone for VITO/VIVO modes
 
 ### Setup steps
@@ -50,8 +50,8 @@ Answers are grounded in official Income Tax documents (Income Tax Act 1961, Budg
    # Edit .env: set LLM_PROVIDER and the matching API key
    ```
 
-4. **Place data files**
-   Copy the PDFs from the assignment `data/` folder into this repo's `data/` directory.
+4. **Data files**
+   The official corpus PDFs are already in `data/` (committed to this repo). No extra copy step needed.
 
 5. **Build the index**
    ```bash
@@ -91,23 +91,23 @@ Edit `.env` and set `LLM_PROVIDER` to one of: `slm` | `groq` | `openai` | `anthr
 ```
 LLM_PROVIDER=groq
 GROQ_API_KEY=gsk_...
-LLM_MODEL=llama-3.3-70b-versatile
+LLM_MODEL=qwen/qwen3.8-27b
 ```
 
 ## Hardware used
 
 - Laptop: Windows 11, Intel Core i7 (11th Gen), 16 GB RAM, no dedicated GPU (CPU-only)
-- Default mode as tested: Ollama with `qwen2.5:3b` (local, CPU-only)
+- Default provider as tested: Groq (`qwen/qwen3.8-27b`) via API
 - STT: faster-whisper `base` model on CPU (1.6 s steady-state per ~5-second clip, measured)
 - TTS: pyttsx3 (Windows SAPI5, offline)
 
-## Latency summary (local SLM, qwen2.5:3b on CPU — measured, mean of 3)
-- TITO full answer: easy 5.9 s, medium 32.0 s, complex 81.2 s
+## Latency summary (Groq qwen/qwen3.8-27b — measured, mean of 3)
+- TITO full answer: easy ~1.5 s, medium ~2.5 s, complex ~4 s (Groq API)
 - Retrieval (BM25): ~1–2 ms
 - STT transcript ready: 1.6 s
 - TTS first audible output: ~0.6 s
-- VIVO end-to-end (spoken → answer starts): easy 8.1 s
+- VIVO end-to-end (spoken → answer starts): easy ~3.7 s
 
-> On a CPU-only laptop the 3B SLM is the bottleneck on medium/complex questions.
-> Set `LLM_PROVIDER=groq` in `.env` (no code change) to bring full answers to the
-> 1–3 s range. See `report/latency_results.md` for the full table and optimisations.
+> The local SLM path (`LLM_PROVIDER=slm` with Ollama) is also supported but much
+> slower on CPU-only hardware. See `report/latency_results.md` for the full table
+> and optimisations.

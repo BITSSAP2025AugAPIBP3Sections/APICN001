@@ -32,10 +32,11 @@ PDFs in data/  ──ingest.py──▶  index/chunks.json  ──Retriever─�
 3. **Generate** (`src/rag/llm.py`). One OpenAI-compatible client serves `slm`
    (Ollama), `groq`, `openai`, and `openrouter`; Anthropic has a thin second path
    for its Messages API. The provider, model, and key are selected purely from
-   `.env`, so switching from a local SLM to Groq is a one-line config change with
-   no code edit. The system prompt forces answers from context only, demands a
-   document+page citation for each claim, and instructs the model to say it cannot
-   find the answer in the corpus rather than hallucinate.
+   `.env` — the default is `groq` with `qwen/qwen3.8-27b`, and switching to any
+   other provider is a one-line config change with no code edit. The system prompt
+   forces answers from context only, demands a document+page citation for each
+   claim, and instructs the model to say it cannot find the answer in the corpus
+   rather than hallucinate.
 
 ## Modes (`src/app.py`)
 
@@ -67,8 +68,8 @@ Gradio web UI (`--ui web`) exposes the text and voice paths in a browser, and a
 The corpus is small enough (~1,456 chunks) that a dependency-free BM25 retriever
 beats the latency of loading an embedding model on a CPU-only laptop, while still
 giving accurate, citable grounding. Keeping one provider-agnostic LLM client means
-the local-SLM default and every cloud fallback run through identical code, which
-is exactly what the assignment's `.env` switch requires.
+the Groq default and every other supported provider (slm/openai/anthropic/openrouter)
+run through identical code, which is exactly what the assignment's `.env` switch requires.
 
 *(TIVO and VITO are reachable with `--mode tivo` / `--mode vito`; the Voice tab of
 the web UI demonstrates VITO/VIVO end to end.)*
