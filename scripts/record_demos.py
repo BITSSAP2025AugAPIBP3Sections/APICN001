@@ -41,7 +41,8 @@ from rag.llm import chat  # noqa: E402
 from rag.retriever import Retriever  # noqa: E402
 from speech import stt  # noqa: E402
 
-SR = 16_000
+SR = 44_100
+MIC_DEVICE = 11  # Headset (Vignesh 75) — device 11 at 44100 Hz
 
 # demo index -> (question id, question text)
 DEMOS = {
@@ -59,7 +60,7 @@ DEMOS = {
 def record_fixed(seconds: float) -> np.ndarray:
     """Record for a fixed number of seconds — no stdin needed (works under non-interactive shells)."""
     print(f"    >> recording for {int(seconds)}s — start speaking NOW...")
-    audio = sd.rec(int(seconds * SR), samplerate=SR, channels=1, dtype="int16")
+    audio = sd.rec(int(seconds * SR), samplerate=SR, channels=1, dtype="int16", device=MIC_DEVICE)
     for remaining in range(int(seconds), 0, -1):
         print(f"       {remaining}s left...", end="\r", flush=True)
         time.sleep(1)
@@ -122,14 +123,14 @@ def stitch(q_wav: str, a_wav: str, out_path: str) -> str:
             return out_path
     # fallback: concatenate raw samples into a .wav next to the intended name
     wav_out = out_path.rsplit(".", 1)[0] + ".wav"
-    q, _ = sf.read(q_wav)
+    q, q_sr = sf.read(q_wav)
     a, _ = sf.read(a_wav)
     if q.ndim > 1:
         q = q.mean(axis=1)
     if a.ndim > 1:
         a = a.mean(axis=1)
-    gap = np.zeros(int(SR * 0.5))
-    sf.write(wav_out, np.concatenate([q, gap, a]), SR)
+    gap = np.zeros(int(q_sr * 0.5))
+    sf.write(wav_out, np.concatenate([q, gap, a]), q_sr)
     return wav_out
 
 
