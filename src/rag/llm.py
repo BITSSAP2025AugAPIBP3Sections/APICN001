@@ -24,7 +24,8 @@ DEFAULT_MODELS: dict[str, str] = {
 SYSTEM_PROMPT = (
     "You are an expert Indian Income Tax assistant. "
     "Answer ONLY from the provided context excerpts from official Income Tax documents. "
-    "If the context does not contain enough information to answer, say: "
+    "If the exact financial year is not in the context but a nearby year is, use that data and state which year it is from. "
+    "If the context truly does not contain relevant information, say: "
     "'I cannot find this in the provided corpus.' "
     "Always cite the source document name and page number for every key claim, "
     "e.g. '(bs2024_25.pdf, p.12)'. "

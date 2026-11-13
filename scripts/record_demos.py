@@ -45,7 +45,7 @@ SR = 16_000
 
 # demo index -> (question id, question text)
 DEMOS = {
-    0: ("free choice", "Ask any Income Tax question of your choice, then ask a natural follow-up (e.g. 'and under the old regime?') to show multi-turn memory."),
+    0: ("Q-free", "What is the standard deduction available to salaried employees under the new tax regime for FY 2024-25?"),
     1: ("Q-E01", "What are the income tax slab rates for an individual under the new regime for FY 2024-25 (AY 2025-26)?"),
     2: ("Q-E02", "What is the maximum deduction allowed under Section 80C in a financial year, and name three eligible investments?"),
     3: ("Q-E05", "What is the tax rate applicable to income from capital gains on listed equity shares held for more than 12 months as per the latest budget?"),
@@ -68,10 +68,22 @@ def record_fixed(seconds: float) -> np.ndarray:
     return audio
 
 
+def _clean(text: str) -> str:
+    """Replace characters that crash cp1252 console/TTS."""
+    return (
+        text.replace("₹", "Rs.")
+            .replace("’", "’")
+            .replace("‘", "’")
+            .replace("–", "-")
+            .replace("—", "--")
+            .replace("…", "...")
+    )
+
+
 def answer_of(ret: Retriever, question: str, history: list[dict]) -> str:
     hits = ret.search(question, top_k=5)
     context = "\n\n".join(f"{h['text']}\n[source: {h['doc']} p.{h['page']}]" for h in hits)
-    return chat(question, context, history)
+    return _clean(chat(question, context, history))
 
 
 def tts_to_wav(text: str, path: str) -> bool:
@@ -128,11 +140,12 @@ def record_one(ret: Retriever, idx: int, seconds: float) -> None:
     print(f"{'#'*72}", flush=True)
     print(f"\n   READ THIS ALOUD:\n", flush=True)
     print(f"   >>> {qtext}\n", flush=True)
-    # visible, flushed countdown so you have time to read before recording
-    for remaining in range(8, 0, -1):
+    # 5-second countdown before recording
+    for remaining in range(5, 0, -1):
         print(f"   recording starts in {remaining}s ...", end="\r", flush=True)
         time.sleep(1)
     print("                                           ", flush=True)
+    print("   >>> SPEAK NOW <<<", flush=True)
     mic = record_fixed(seconds)
     if len(mic) < SR // 2:
         print("    !! too short, skipping")
@@ -148,7 +161,7 @@ def record_one(ret: Retriever, idx: int, seconds: float) -> None:
 
     print("    thinking...")
     ans = answer_of(ret, transcript, [])
-    print(f"    answer: {ans[:160]}...")
+    print(f"    answer: {ans[:160].encode('ascii', errors='replace').decode()}...")
 
     a_wav = tempfile.mktemp(suffix=".wav")
     if not tts_to_wav(ans, a_wav):
@@ -161,7 +174,7 @@ def record_one(ret: Retriever, idx: int, seconds: float) -> None:
 
 
 # per-demo recording window (seconds) — longer for complex questions
-DURATIONS = {0: 18, 1: 10, 2: 10, 3: 10, 4: 18, 5: 14, 6: 22, 7: 20}
+DURATIONS = {0: 15, 1: 15, 2: 15, 3: 15, 4: 25, 5: 20, 6: 30, 7: 28}
 
 
 def main() -> None:
