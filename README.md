@@ -4,9 +4,9 @@
 | Member | Role | Email |
 |--------|------|-------|
 | Rajoli Vignesh | Lead Developer | 2023sl20037@wilp.bits-pilani.ac.in |
-| Priya Sahay | RAG & ML | 2023sl70012@wilp.bits-pilani.ac.in  |
- Kousik Das | RAG & ML | 2023sl70006@wilp.bits-pilani.ac.in  |
-  Pallavi S | RAG & ML | 2023sl70041@wilp.bits-pilani.ac.in  |
+| Priya Sahay | RAG & ML | 2023sl70012@wilp.bits-pilani.ac.in |
+| Kousik Das | RAG & ML | 2023sl70006@wilp.bits-pilani.ac.in |
+| Pallavi S | RAG & ML | 2023sl70041@wilp.bits-pilani.ac.in |
 
 ## Overview
 
